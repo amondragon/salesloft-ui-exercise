@@ -1,4 +1,4 @@
-import data from "../emails.json";
+import data from "./emails.json";
 
 export const parseMessages = () => {
   return data.messages.map((message) => {
