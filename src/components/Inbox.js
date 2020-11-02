@@ -8,7 +8,9 @@ import Sidebar from "./Sidebar";
 import Messages from "./Messages";
 
 export default function Inbox() {
-  const messages = getMessages();
+  const [messages, setMessages] = useState(getMessages());
+  const [search, setSearch] = useState("");
+
   const location = useLocation();
   const singleMessage = location.pathname.split("/").length > 2;
   const singleMessageId = singleMessage && location.pathname.split("/")[2];
@@ -16,10 +18,36 @@ export default function Inbox() {
     (message) => message.id === singleMessageId
   );
 
-  const [search, setSearch] = useState("");
-
   function searchHandler(search) {
     setSearch(search);
+  }
+
+  function changeAllHandler(event) {
+    setMessages(
+      messages.map((message) => {
+        return { ...message, selected: event.target.checked };
+      })
+    );
+  }
+
+  function changeHandler(event) {
+    setMessages(
+      messages.map((message) => {
+        let returnObj = { ...message };
+        if (returnObj.id === event.target.value) {
+          returnObj.selected = event.target.checked;
+        }
+        return returnObj;
+      })
+    );
+  }
+
+  function deleteAllSelectedHandler() {
+    setMessages(messages.filter((message) => !message.selected));
+  }
+
+  function deleteHandler(id) {
+    setMessages(messages.filter((message) => message.id !== id));
   }
 
   return (
@@ -34,7 +62,14 @@ export default function Inbox() {
         {singleMessage && messageFound ? (
           <Message />
         ) : (
-          <Messages messages={messages} search={search} />
+          <Messages
+            messages={messages}
+            search={search}
+            changeAllHandler={changeAllHandler}
+            changeHandler={changeHandler}
+            deleteAllSelectedHandler={deleteAllSelectedHandler}
+            deleteHandler={deleteHandler}
+          />
         )}
       </Grid>
     </Grid>
