@@ -25,7 +25,11 @@ export default function Inbox() {
         <Sidebar />
       </Grid>
       <Grid item xs={12} sm={9} md={10}>
-        {singleMessage && messageFound ? <Message /> : <Messages />}
+        {singleMessage && messageFound ? (
+          <Message />
+        ) : (
+          <Messages messages={messages} />
+        )}
       </Grid>
     </Grid>
   );
