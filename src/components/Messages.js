@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { searchMessages, filterMessagesByTag } from "../utils/MessagesHelper";
 import { makeStyles } from "@material-ui/core/styles";
 import Checkbox from "@material-ui/core/Checkbox";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -28,17 +29,11 @@ export default function Messages(props) {
   const currentPage = useLocation().pathname.split("/")[1];
 
   let messagesFiltered = props.search
-    ? props.messages.filter(
-        (message) =>
-          message.subject.includes(props.search) ||
-          message.sender.includes(props.search)
-      )
+    ? searchMessages(props.search, props.messages)
     : props.messages;
 
   if (currentPage !== "inbox") {
-    messagesFiltered = messagesFiltered.filter((message) =>
-      message.tags.includes(currentPage)
-    );
+    messagesFiltered = filterMessagesByTag(currentPage, props.messages);
   }
 
   return (
