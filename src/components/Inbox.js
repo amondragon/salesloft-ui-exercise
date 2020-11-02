@@ -1,5 +1,13 @@
 import React from "react";
+import { parseMessages } from "../utils/MessagesHelper";
 
 export default function Inbox() {
-  return <React.Fragment>Inbox</React.Fragment>;
+  const messages = parseMessages();
+  return (
+    <ul>
+      {messages.map((message) => (
+        <li>{message.subject}</li>
+      ))}
+    </ul>
+  );
 }
