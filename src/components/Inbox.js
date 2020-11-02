@@ -60,7 +60,7 @@ export default function Inbox() {
       </Grid>
       <Grid item xs={12} sm={9} md={10}>
         {singleMessage && messageFound ? (
-          <Message />
+          <Message message={messageFound} deleteHandler={deleteHandler} />
         ) : (
           <Messages
             messages={messages}
